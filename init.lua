@@ -954,3 +954,33 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+--------------------------------------------------------------------------------
+-- jamezchard
+--------------------------------------------------------------------------------
+
+-- emacs style movement in i/c/t mode
+vim.keymap.set('i', '<C-p>', '<up>')
+vim.keymap.set('i', '<C-n>', '<down>')
+vim.keymap.set('i', '<C-b>', '<left>')
+vim.keymap.set('i', '<C-f>', '<right>')
+vim.keymap.set('i', '<C-a>', '<home>')
+vim.keymap.set('i', '<C-e>', '<end>')
+--
+vim.keymap.set('c', '<C-p>', '<up>')
+vim.keymap.set('c', '<C-n>', '<down>')
+vim.keymap.set('c', '<C-b>', '<left>')
+vim.keymap.set('c', '<C-f>', '<right>')
+vim.keymap.set('c', '<C-a>', '<home>')
+vim.keymap.set('c', '<C-e>', '<end>')
+--
+vim.keymap.set('t', '<C-p>', '<up>')
+vim.keymap.set('t', '<C-n>', '<down>')
+vim.keymap.set('t', '<C-b>', '<left>')
+vim.keymap.set('t', '<C-f>', '<right>')
+vim.keymap.set('t', '<C-a>', '<home>')
+vim.keymap.set('t', '<C-e>', '<end>')
+
+-- open and source vimrc file
+vim.keymap.set('n', '<leader>ev', '<cmd>edit $MYVIMRC<CR>')
+vim.keymap.set('n', '<leader>sv', '<cmd>source $MYVIMRC<CR>')
