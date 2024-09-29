@@ -87,11 +87,11 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = '\\'
+vim.g.maplocalleader = '\\\\'
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -605,9 +605,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -966,14 +966,14 @@ vim.keymap.set('i', '<C-b>', '<left>')
 vim.keymap.set('i', '<C-f>', '<right>')
 vim.keymap.set('i', '<C-a>', '<home>')
 vim.keymap.set('i', '<C-e>', '<end>')
---
+
 vim.keymap.set('c', '<C-p>', '<up>')
 vim.keymap.set('c', '<C-n>', '<down>')
 vim.keymap.set('c', '<C-b>', '<left>')
 vim.keymap.set('c', '<C-f>', '<right>')
 vim.keymap.set('c', '<C-a>', '<home>')
 vim.keymap.set('c', '<C-e>', '<end>')
---
+
 vim.keymap.set('t', '<C-p>', '<up>')
 vim.keymap.set('t', '<C-n>', '<down>')
 vim.keymap.set('t', '<C-b>', '<left>')
@@ -984,3 +984,8 @@ vim.keymap.set('t', '<C-e>', '<end>')
 -- open and source vimrc file
 vim.keymap.set('n', '<leader>ev', '<cmd>edit $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>sv', '<cmd>source $MYVIMRC<CR>')
+
+-- gui
+vim.o.guifont = 'Maple Mono NF CN:h10'
+vim.opt.linespace = 0
+vim.cmd.colorscheme 'retrobox'
