@@ -87,12 +87,25 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = '\\'
+vim.g.maplocalleader = '\\'
 
 vim.keymap.set('n', '<leader>ev', '<cmd>edit $MYVIMRC<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sv', '<cmd>source $MYVIMRC<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>E', '<cmd>Explore<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ee', '<cmd>Explore<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>E', '<cmd>exe "Explore" getcwd()<cr>', { noremap = true, silent = true })
+
+-- use emacs keybindings in insert/command/terminal mode
+local modes = { 'i', 'c', 't' }
+for _, mode in ipairs(modes) do
+  vim.keymap.set(mode, '<C-p>', '<up>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-n>', '<down>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-b>', '<left>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-f>', '<right>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-a>', '<home>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-e>', '<end>', { noremap = true, silent = true })
+  vim.keymap.set(mode, '<C-d>', '<del>', { noremap = true, silent = true })
+end
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
@@ -101,6 +114,13 @@ vim.g.have_nerd_font = false
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+
+-- autoread
+vim.opt.autoread = true
+
+-- default nowrap, add toggle keymap
+vim.opt.wrap = false
+vim.keymap.set('n', '<leader>wr', '<cmd>set wrap!<cr>', { noremap = true, silent = true })
 
 -- Make line numbers default
 vim.opt.number = true
@@ -125,8 +145,8 @@ end)
 -- Enable break indent
 vim.opt.breakindent = true
 
--- Save undo history
-vim.opt.undofile = true
+-- Don't save undo history
+vim.opt.undofile = false
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -158,7 +178,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 0
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -300,7 +320,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
+      delay = 500,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -636,19 +656,20 @@ require('lazy').setup({
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = false,
+        -- virtual_text = {
+        --   source = 'if_many',
+        --   spacing = 2,
+        --   format = function(diagnostic)
+        --     local diagnostic_message = {
+        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+        --     }
+        --     return diagnostic_message[diagnostic.severity]
+        --   end,
+        -- },
       }
 
       -- LSP servers and clients are able to communicate to each other what features they support.
@@ -986,6 +1007,24 @@ require('lazy').setup({
     end,
   },
 
+  -- {
+  --   'LintaoAmons/bookmarks.nvim',
+  --   -- pin the plugin at specific version for stability
+  --   -- backup your bookmark sqlite db when there are breaking changes
+  --   -- tag = "v2.3.0",
+  --   dependencies = {
+  --     { 'kkharji/sqlite.lua' },
+  --     { 'nvim-telescope/telescope.nvim' },
+  --     { 'stevearc/dressing.nvim' }, -- optional: better UI
+  --   },
+  --   config = function()
+  --     local opts = {} -- check the "./lua/bookmarks/default-config.lua" file for all the options
+  --     require('bookmarks').setup(opts) -- you must call setup to init sqlite db
+  --   end,
+  -- },
+
+  -- run :BookmarksInfo to see the running status of the plugin
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -999,7 +1038,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
